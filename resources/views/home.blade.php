@@ -1,13 +1,10 @@
 @extends('layouts.app')
-
 @section('content')
-@if (auth()->user()->role == 'Proveedor')
 <div class="pr-5 d-flex justify-content-end">
     <a class="btn btn-primary" href="{{ route('service.create') }}">{{ __('Create service') }}</a>
 </div>
-@endif
     <div class="row p-4">
-       
+
         <div class="col-xl-2 col-lg-3 col-md-3 col-sm-4">
             <div class="list-group col-md-12 pb-5">
                 <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
@@ -26,8 +23,8 @@
                 @endforeach
             </div>
         </div>
-        
-        
+
+
         <div class="col-xl-10 col-lg-9 col-md-9 col-sm-8 pl-0 pr-0">
             <div class="col-md-12">
                 <div class="card">
@@ -57,10 +54,10 @@
                                           <small class="card-text">{{ $service->city->name }}</small>
                                           <p class="card-text">{{ $service->description }}</p>
                                           <p class="card-text"><small class="text-muted">{{ $service->created_at->diffForHumans() }}</small></p>
-                                          
+
                                             <a href="{{ route('service.show', $service) }}"
                                                 class="btn btn-primary">{{ __('See service') }}</a>
-                                          
+
                                         </div>
                                       </div>
                                     </div>

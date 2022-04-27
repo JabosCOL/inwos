@@ -23,7 +23,7 @@
         .service {
             transition: box-shadow 0.2s ease;
             border-radius: 0.5rem;
-            
+
         }
 
         .service:hover {
@@ -70,9 +70,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    @if (Auth::user()->role == 'Proveedor')
                                     <a class="dropdown-item" href="{{ route('userServices.index') }}">{{__('My services')}}</a>
-                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
