@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Inwos" company="Inwos" webLink="http://" view-date="2020-11-01" view-index="0" gantt-divider-location="525" resource-divider-location="300" version="3.0.3005" locale="es_ES">
+    <description>
+        <![CDATA[Tiempo estimado para la realización de la plataforma web inwos ]]>
+    </description>
+    <view zooming-state="default:8" id="gantt-chart">
+        <field id="tpd3" name="Nombre" width="257" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="132" order="1"/>
+        <field id="tpd5" name="Fecha de fin" width="132" order="2"/>
+        <timeline>
+            <![CDATA[1,79,3,83,10,12,81,11,2,68,80]]>
+        </timeline>
+        <option id="color.recent">
+            <![CDATA[#00ffff #ff0000 #f4f4f4 #39f0fd #ffff00 #0000cc #ff3333]]>
+        </option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nombre" width="210" order="0"/>
+        <field id="1" name="Función" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" name="Fase I Analisis Del Sistema" color="#ffff00" meeting="false" start="2020-10-15" duration="70" complete="100" thirdDate="2021-04-20" thirdDate-constraint="0" expand="true">
+            <depend id="4" type="2" difference="0" hardness="Strong"/>
+            <task id="1" name="Escoger Plan de negocio" color="#39f0fd" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2020-10-15" duration="13" complete="100" thirdDate="2021-04-20" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Analisar los requisitos y necesidades del cliente para construir un sistema que ayude a solucionar sus requerimientos 
+]]>
+                </notes>
+                <depend id="2" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="2" name="Levantamiento información" color="#39f0fd" meeting="false" start="2020-11-03" duration="42" complete="100" thirdDate="2021-04-20" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Recolectar infomarción sobre el mercado que abarcara nuestro plan de negocio
+]]>
+                </notes>
+                <depend id="3" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="3" name="Analisis de la información" color="#39f0fd" meeting="false" start="2020-12-31" duration="15" complete="100" thirdDate="2021-04-20" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Plantear diferentes alternativas teniendo en cuenta la información recolectada y definir la viabilidad del sistema ]]>
+                </notes>
+                <depend id="10" type="2" difference="0" hardness="Strong"/>
+            </task>
+        </task>
+        <task id="4" name="Fase II Estructuración Del Sistema" color="#0000cc" meeting="false" start="2021-01-21" duration="127" complete="49" thirdDate="2021-04-20" thirdDate-constraint="0" expand="true">
+            <depend id="78" type="2" difference="0" hardness="Strong"/>
+            <task id="10" name="Identificación datos de la idea de negocio" color="#00ffff" meeting="false" start="2021-01-21" duration="15" complete="100" thirdDate="2021-04-20" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Especificar los requisitos necesarios para desarrollar el sistema  de acuerdo con las necesidades del cliente ]]>
+                </notes>
+                <depend id="85" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="85" name="Presupuesto" color="#00ffff" meeting="false" start="2021-02-11" duration="11" complete="100" thirdDate="2021-01-21" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Calculo del presupuesto necesario del proyecto mediante excel ]]>
+                </notes>
+                <depend id="11" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="11" name="Diseño preliminar interfaz web" color="#39f0fd" meeting="false" start="2021-02-26" duration="15" complete="100" thirdDate="2021-04-20" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Realización de Mackups del diseño preliminar del sistema mediante la aplicación Balsamiq]]>
+                </notes>
+                <depend id="12" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="12" name="Determinación diccionario y BDD" color="#00ffff" meeting="false" start="2021-03-19" duration="86" complete="25" thirdDate="2021-04-20" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Diseñar la arquitectura del software, mediante la interpretación de las clases, objetos y mecanismos necesarias para el correcto funcionamiento mediante el diccionario  de datos  y BDD con el fin identificar los atributos y la estructuración del funcionamiento BackEnd del sistema ]]>
+                </notes>
+                <depend id="79" type="2" difference="0" hardness="Strong"/>
+            </task>
+        </task>
+        <task id="78" name="Fase III Pruebas Del Sistema" color="#ff0000" meeting="false" start="2021-07-19" duration="67" complete="0" thirdDate="2021-04-20" thirdDate-constraint="0" expand="true">
+            <depend id="23" type="2" difference="0" hardness="Strong"/>
+            <task id="79" name="Desarrollo Estructura Y Vista De La App" color="#00ffff" meeting="false" start="2021-07-19" duration="24" complete="0" thirdDate="2021-04-20" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Construir el  Frontend del sistema mediante la codificación en el lenguaje seleccionado que cumpla con los requisitos encontrados anteriormente ]]>
+                </notes>
+                <depend id="80" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="80" name="Desarrollo Módulos" color="#00ffff" meeting="false" start="2021-08-20" duration="10" complete="0" thirdDate="2021-04-20" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Realizar la codificación de los módulos del sistema a partir de la utilización del lenguaje de programación seleccionado de acuerdo al requirimiento del diseño ]]>
+                </notes>
+                <depend id="81" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="81" name="Identificación De Proveedores" color="#00ffff" meeting="false" start="2021-09-03" duration="10" complete="0" thirdDate="2021-04-20" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[Definir estrategias para la elaboración de términos de referencia y procesos de evaluación de los posibles proveedores para la adquisición del servicio]]>
+                </notes>
+                <depend id="82" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="82" name="Prueba Piloto" color="#00ffff" meeting="false" start="2021-09-17" duration="23" complete="0" thirdDate="2021-04-20" thirdDate-constraint="1" expand="true">
+                <notes>
+                    <![CDATA[Ejecutar y documentar las pruebas del software aplicando técnicas de ensayo y error de acuerdo con el plan diseñado y los procedimientos establecidos para dar paso a la ultima fase ]]>
+                </notes>
+                <depend id="83" type="2" difference="0" hardness="Strong"/>
+            </task>
+        </task>
+        <task id="23" name="Fase IV Ejecución Del Sistema" color="#ff0000" meeting="false" start="2021-10-20" duration="12" complete="0" thirdDate="2021-10-11" thirdDate-constraint="0" expand="true">
+            <task id="68" name="Lanzamiento Del Proyecto" color="#ff0000" meeting="true" start="2021-10-20" duration="0" complete="0" thirdDate="2021-04-20" thirdDate-constraint="0" expand="true"/>
+            <task id="83" name="Promoción" color="#00ffff" meeting="false" start="2021-10-20" duration="12" complete="0" thirdDate="2021-10-07" thirdDate-constraint="0" expand="true"/>
+        </task>
+    </tasks>
+    <resources>
+        <resource id="0" name="Cesar David Bolívar Cuchigay " function="Default:1" contacts="cesar.bolivarc@hotmail.com" phone="3204549315">
+            <rate name="standard" value="66000"/>
+        </resource>
+        <resource id="1" name="Rafael Stiven Londoño Camacho " function="Default:1" contacts="3107845046 " phone="3107845046 ">
+            <rate name="standard" value="66000"/>
+        </resource>
+        <resource id="2" name="Jessica Liliana Naranjo Ballesteros" function="Default:0" contacts="" phone="">
+            <rate name="standard" value="66000"/>
+        </resource>
+        <resource id="3" name="Jose Ilber Cardoso Gusman" function="Default:1" contacts="jicardoso@misena.edu.co  " phone="3138524424 ">
+            <rate name="standard" value="73000"/>
+        </resource>
+        <resource id="4" name="Mathyo Bedoya" function="Default:0" contacts="" phone="">
+            <rate name="standard" value="66000"/>
+        </resource>
+    </resources>
+    <allocations>
+        <allocation task-id="2" resource-id="0" function="Default:1" responsible="false" load="80.0"/>
+        <allocation task-id="3" resource-id="0" function="Default:1" responsible="false" load="60.0"/>
+        <allocation task-id="10" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="12" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="68" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="80" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="82" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="1" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="2" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="3" resource-id="1" function="Default:1" responsible="true" load="70.0"/>
+        <allocation task-id="10" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="12" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="68" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="79" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="82" resource-id="1" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="10" resource-id="2" function="Default:0" responsible="false" load="80.0"/>
+        <allocation task-id="11" resource-id="2" function="Default:0" responsible="false" load="70.0"/>
+        <allocation task-id="68" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="79" resource-id="2" function="Default:0" responsible="false" load="70.0"/>
+        <allocation task-id="81" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="82" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="1" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="10" resource-id="3" function="Default:1" responsible="false" load="80.0"/>
+        <allocation task-id="11" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="68" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="79" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="82" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="68" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="80" resource-id="4" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="81" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="82" resource-id="4" function="Default:0" responsible="false" load="100.0"/>
+    </allocations>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>
