@@ -7,7 +7,8 @@
 @stop
 
 @section('content')
-<p>Welcome to this beautiful admin panel.</p>
+<h1>INWOS</h1>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat nobis tempore impedit veniam doloribus delectus tempora modi suscipit harum ad consequuntur veritatis quo, iure provident voluptates corporis atque eveniet ipsum.</p>
 @stop
 
 @section('css')
