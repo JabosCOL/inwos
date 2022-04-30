@@ -13,12 +13,7 @@ class SaveServiceRequest extends FormRequest
      */
     public function authorize()
     {
-        $proveedor = $this->user()->role = 'Proveedor';
-        if ($proveedor)
         return true;
-        else
-        return false;
-        
     }
 
     /**
