@@ -2,21 +2,27 @@
 
 @section('title', 'Dashboard')
 
-@section('content_header')
-<h1>Dashboard</h1>
-@stop
-
 @section('content')
-<h1>INWOS</h1>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat nobis tempore impedit veniam doloribus delectus tempora modi suscipit harum ad consequuntur veritatis quo, iure provident voluptates corporis atque eveniet ipsum.</p>
+<style>
+  .content-wrapper {
+    background-image: linear-gradient(rgba(16, 16, 16, .2), rgba(16, 16, 16, .8)), url(/storage/images/inwos/admin.jpg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+<div class="background">
+  <img class="img" src="/storage/images/inwos/adminlogo.png" alt="inwos" width="60%">
+</div>
+
 @stop
 
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
-@stop
-
-@section('js')
-<script>
-  console.log('Hi!');
-</script>
 @stop
