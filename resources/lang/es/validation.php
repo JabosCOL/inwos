@@ -135,4 +135,10 @@ return [
             'min' => 'La :attribute debe contener más de :min caracteres',
         ],
     ],
+
+    'attributes' => [
+        'current_password'      => 'contraseña actual',
+        'new_password'          => 'nueva contraseña',
+        'new_password_confirmation' => 'confirmar nueva contraseña',
+    ],
 ];

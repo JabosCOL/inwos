@@ -376,7 +376,7 @@
                 grid-template-rows: repeat(9, 3fr);
             }
 
-            .background{
+            .background {
                 display: flex;
                 justify-content: center;
                 align-items: center;

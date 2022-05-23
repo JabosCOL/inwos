@@ -21,6 +21,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('ijaboCropTool-master/ijaboCropTool.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <style>
         body {
@@ -74,19 +75,26 @@
                         @else
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <i class="fa-solid fa-circle-user"></i>
-                                {{ Auth::user()->name }}
+                                @if(Auth::user()->image)
+                                <img src="/storage/{{ Auth::user()->image }}" class="rounded-circle border" alt="{{ Auth::user()->name }}" style="width:35px; height:35px;">
+                                @else
+                                <img src="/storage/images/users/default.png" class="rounded-circle border" alt="default" style="width:35px; height:35px;">
+                                @endif
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 @if (Auth::user()->role_id == '1')
 
                                 <a class="dropdown-item" href="{{ route('admin.home') }}">
-                                    <i class="fa-solid fa-circle-user"></i>
+                                    <i class="fa-solid fa-address-book"></i>
                                     {{__('Admin')}}
                                 </a>
 
                                 @endif
+                                <a class="dropdown-item" href="{{ route('user.index') }}">
+                                    <i class="fa-solid fa-gears"></i>
+                                    {{__('My account')}}
+                                </a>
                                 <a class="dropdown-item" href="{{ route('userServices.index') }}">
                                     <i class="fa-solid fa-folder-open"></i>
                                     {{__('My services')}}
@@ -112,6 +120,23 @@
             @yield('content')
         </main>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="ijaboCropTool-master/ijaboCropTool.min.js"></script>
+    <script>
+        $('#_userAvatarFile').ijaboCropTool({
+            allowedExtensions: ['jpg', 'jpeg', 'png'],
+            buttonsText: ['ACCEPT', 'QUIT'],
+            buttonsColor: ['#30bf7d', '#ee5155', -15],
+            processUrl: '{{ route("user.updateImage") }}',
+            withCSRF: ['_token', '{{ csrf_token() }}'],
+            onSuccess: function(message, element, status) {
+                alert(message);
+            },
+            onError: function(message, element, status) {
+                alert(message);
+            }
+        });
+    </script>
 </body>
 
 </html>

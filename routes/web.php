@@ -21,7 +21,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->middleware('guest');
+})->middleware('guest')
+->name('/');
 
 Auth::routes();
 
@@ -29,9 +30,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('service', ServiceController::class);
 
-Route::get('userServices', [UserController::class, 'index'])->name('userServices.index');
-Route::get('userServices/{service}', [UserController::class, 'show'])->name('userServices.show');
-Route::delete('userServices/{service}', [UserController::class, 'destroy'])->name('userServices.destroy');
+Route::get('userServices', [ServiceController::class, 'userIndex'])->name('userServices.index');
+Route::get('userServices/{service}', [ServiceController::class, 'userShow'])->name('userServices.show');
+Route::delete('userServices/{service}', [ServiceController::class, 'userDestroy'])->name('userServices.destroy');
 
 Route::post('order', [OrderController::class, 'create'])->name('order.create');
 
@@ -39,3 +40,9 @@ Route::get('Category/{id}', [CategoryController::class, 'index'])->name('categor
 
 Route::get('City/{id}', [CityController::class, 'index'])->name('city.index');
 
+Route::get('user', [UserController::class, 'index'])->name('user.index');
+Route::get('user/password', [UserController::class, 'resetPasswordForm'])->name('user.resetPassword');
+Route::post('user/reset-password', [UserController::class, 'resetPassword'])->name('resetPassword');
+Route::post('user/updateImage', [UserController::class, 'updateImage'])->name('user.updateImage');
+Route::patch('user/deleteImage/{user}', [UserController::class, 'deleteImage'])->name('user.deleteImage');
+Route::delete('user/{user}', [UserController::class, 'destroy'])->name('user.destroy');

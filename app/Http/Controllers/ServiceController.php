@@ -6,7 +6,6 @@ use App\Http\Requests\SaveServiceRequest;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Service;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -20,17 +19,6 @@ class ServiceController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function index()
-    {
-        
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -39,11 +27,11 @@ class ServiceController extends Controller
     {
 
         return view('services.create', [
-            'service'=> New Service, 
+            'service'=> New Service,
             'categories'=> Category::pluck('name', 'id'),
             'cities'=> City::pluck('name', 'id'),
             'user_id'=> auth()->user()->id
-            
+
         ]);
     }
 
@@ -56,8 +44,8 @@ class ServiceController extends Controller
     public function store(SaveServiceRequest $request)
     {
         $service = new Service($request->validated());
-        
-        $service->image = $request->file('image')->store('images', 'public');
+
+        $service->image = $request->file('image')->store('images/services', 'public');
 
         $service->save();
 
@@ -93,7 +81,7 @@ class ServiceController extends Controller
     public function edit(Service $service)
     {
         return view('services.edit', [
-            'service'=>$service, 
+            'service'=>$service,
             'categories'=> Category::pluck('name', 'id'),
             'cities'=> City::pluck('name', 'id'),
             'user_id'=> auth()->user()->id
@@ -111,11 +99,11 @@ class ServiceController extends Controller
     {
 
         if($request->hasFile('image'))
-        {   
+        {
             Storage::delete('public/'. $service->image);
 
             $service->fill($request->validated());
-        
+
             $service->image = $request->file('image')->store('images', 'public');
 
             $service->save();
@@ -146,6 +134,49 @@ class ServiceController extends Controller
         $service->delete();
 
         return redirect()->route('home')
+        ->with('status', __('The service was deleted'));
+    }
+
+    /**
+     * Display a listing of the resource from user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function userIndex()
+    {
+        $user = auth()->user()->id;
+
+        return view('services.myservices', [
+            'services' => Service::where('user_id', '=', $user)->get()
+        ]);
+    }
+
+    /**
+     * Display the specified resource from user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function userShow(Service $service)
+    {
+        return view('services.myServicesShow', [
+            'service' => $service,
+            'user_id' => $service->user_id,
+            'auth_id' => auth()->user()->id
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function userDestroy(Service $service)
+    {
+        $service->delete();
+
+        return redirect()->route('userServices.index')
         ->with('status', __('The service was deleted'));
     }
 }

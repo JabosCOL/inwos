@@ -37,5 +37,8 @@ return [
         'title'                 => 'título',
         'username'              => 'usuario',
         'year'                  => 'año',
+        'current_password'      => 'contraseña actual',
+        'new_password'          => 'nueva contraseña',
+        'new_password_confirmation'=> 'confirmar nueva contraseña',
     ],
 ];

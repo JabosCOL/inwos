@@ -18,7 +18,7 @@ class UsersSeeder extends Seeder
         $admin = new User();
         $admin->name = 'adminInwos';
         $admin->email = 'adminInwos@gmail.com';
-        $admin->password = Hash::make('admin');
+        $admin->password = Hash::make('Admininwos2022*');
         $admin->role_id = '1';
         $admin->save();
     }

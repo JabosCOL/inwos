@@ -1,10 +1,10 @@
-<div class="pr-5 d-flex justify-content-end">
+<div class="pr-4 d-flex justify-content-end">
   <a class="btn btn-primary" href="{{ route('service.create') }}">{{ __('Create service') }}</a>
 </div>
 <div class="row p-4">
 
   <div class="col-xl-2 col-lg-3 col-md-3 col-sm-4">
-    <div class="list-group col-md-12 pb-5">
+    <div class="list-group col-md-12 pb-5 pr-0">
       <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
         {{ __('Categories') }}
       </a>
@@ -12,7 +12,7 @@
       <a href="{{ route('category.index', $id) }}" value="{{ $id }}" class="list-group-item list-group-item-action">{{ $name }}</a>
       @endforeach
     </div>
-    <div class="list-group col-md-12  pt-0">
+    <div class="list-group col-md-12 p-0 mb-4">
       <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
         {{ __('Cities') }}
       </a>
@@ -57,6 +57,7 @@
                     <h5 class="card-title">{{ $service->name }}</h5>
                     <small class="card-text">{{ $service->city->name }}</small>
                     <p class="card-text">{{ $service->description }}</p>
+                    <p class="card-text"><small class="text-muted">${{ $service->price }}</small></p>
                     <p class="card-text"><small class="text-muted">{{ $service->created_at->diffForHumans() }}</small></p>
 
                     <a href="{{ route('service.show', $service) }}" class="btn btn-primary">{{ __('See service') }}</a>

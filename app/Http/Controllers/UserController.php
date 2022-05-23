@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Service;
+use App\Models\User;
+use App\Rules\CheckPassword;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware('auth');
     }
 
     /**
@@ -20,32 +23,32 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = auth()->user()->id;
+        $user = auth()->user();
 
-        return view('services.myservices', [
-            'services' => Service::where('user_id', '=', $user)->get()
+        return view('user.index', [
+            'user' => $user
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function resetPasswordForm()
     {
-        //
+        return view('user.resetpassword');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function resetPassword(Request $request)
     {
-        //
+        $request->validate([
+            'current_password' => ['required', new CheckPassword],
+            'new_password' => 'required|string|min:8|confirmed',
+            'new_password_confirmation' => 'required',
+        ]);
+
+        $user = auth()->user();
+        // change Password
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->route('home')->with("status", trans("Password changed successfully"));
     }
 
     /**
@@ -64,26 +67,30 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateImage(Request $request)
     {
-        //
+        $user = User::where('id', auth()->user()->id)
+            ->first();
+        $path = '/storage/images/users';
+        $image = $request->file('image');
+        $new_image_name = 'UIMG' . date('Ymd') . uniqid() . '.jpg';
+        $image_db_url = 'images/users/' . $new_image_name;
+        $upload = $image->move(public_path($path), $new_image_name);
+        if ($upload) {
+            $oldPicture = 'storage/'. $user->image;
+            \File::delete(public_path($oldPicture));
+            $user->update(['image' => $image_db_url]);
+            return response()->json(['status' => 1, 'msg' => trans('Image has been updated successfully.')]);
+        } else {
+            return response()->json(['status' => 0, 'msg' => trans('Something went wrong, try again later')]);
+        }
+
     }
 
     /**
@@ -92,11 +99,29 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Service $service)
+    public function deleteImage(User $user)
     {
-        $service->delete();
+        $oldPicture = 'storage/' . $user->image;
+        \File::delete(public_path($oldPicture));
+        $user->update(['image' => NULL]);
 
-        return redirect()->route('userServices.index')
-        ->with('status', __('The service was deleted'));
+        return redirect()->back()
+            ->with('status', trans('The photo was deleted sucessfully'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        Storage::delete('public/' . $user->image);
+
+        $user->delete();
+
+        return redirect()->route('/')
+        ->with('status', trans('The user was deleted'));
     }
 }
