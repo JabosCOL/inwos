@@ -771,6 +771,14 @@
     "The service has been created successfully": "El servicio ha sido creado satisfactoriamente",
     "The service has been order!": "El servicio ha sido ordenado",
     "This username is already in use": "Este nombre de usuario ya esta en uso",
+    "My orders": "Mis ordenes",
+    "The order has been accepted": "La orden ha sido aceptada",
+    "The order has been finished": "La orden ha sido finalizada",
+    "The order has been canceled": "La orden ha sido cancelada",
+    "Accept": "Aceptar",
+    "Finish": "Finalizar",
+    "Schedule service": "Agendar servicio",
+    "Select date and time": "Selecciona fecha y hora",
     "Categories": "Categorias",
     "Cities": "Ciudades"
 }

@@ -40,11 +40,40 @@
             </div>
             @endif
             @if (Auth::user()->id != $user_id)
-            <form action="{{ route('order.create')}}" method="post" class="d-inline">
-              @csrf
-              <button class="btn btn-danger text-white" onclick="return confirm('Deseas ordenar este servicio?')">{{__('Order!')}}</button>
-            </form>
 
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger col-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              {{__('Schedule service')}}
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{__('Schedule service')}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="{{ route('order.create', $service)}}" method="post" class="d-inline">
+                      <p>{{__('Select date and time')}}</p>
+                      @csrf
+                      <input type="number" name="service_id" value="{{ $service->id }}" hidden>
+                      <div style="float:left;">
+                        <input type="date" name="date" id="date" style="width:150px;float:left;" class="form-control">
+                        <input id="timepkr" name="time" style="width:100px;float:left;" class="form-control" placeholder="HH:MM" />
+                        <button type="button" class="btn btn-primary" onclick="showpickers('timepkr',12)" style="width:40px;float:left;"><i class="fa fa-clock-o"></i>
+                      </div>
+                      <div class="timepicker"></div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" onclick="return confirm('Deseas ordenar este servicio?')">{{__('Order!')}}</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
             @endif
           </div>
         </div>

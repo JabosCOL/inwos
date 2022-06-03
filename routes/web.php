@@ -34,7 +34,11 @@ Route::get('userServices', [ServiceController::class, 'userIndex'])->name('userS
 Route::get('userServices/{service}', [ServiceController::class, 'userShow'])->name('userServices.show');
 Route::delete('userServices/{service}', [ServiceController::class, 'userDestroy'])->name('userServices.destroy');
 
+Route::get('myOrders', [OrderController::class, 'index'])->name('order.index');
 Route::post('order', [OrderController::class, 'create'])->name('order.create');
+Route::post('order/accept/{order}', [OrderController::class, 'accept'])->name('order.accept');
+Route::post('order/finish/{order}', [OrderController::class, 'finish'])->name('order.finish');
+Route::post('order/cancel/{order}', [OrderController::class, 'cancel'])->name('order.cancel');
 
 Route::get('Category/{id}', [CategoryController::class, 'index'])->name('category.index');
 
