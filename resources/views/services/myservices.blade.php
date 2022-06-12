@@ -19,7 +19,7 @@
                         <div class="service card mb-3 pl-0">
                             <div class="row g-0">
                                 <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                                    <img src="/storage/{{ $service->image }}" class="img-fluid rounded-start" alt="{{ $service->name }}" style="background-size: cover;">
+                                    <img src="/storage/{{ $service->image }}" class="img-fluid rounded-start" alt="{{ $service->name }}" style="width: 100%; height: 100%">
                                 </div>
                                 <div class="col-sm-6 col-md-8 col-lg-9 col-xl-10">
                                     <div class="card-body">
@@ -27,7 +27,7 @@
                                         <small class="card-text">{{ $service->city->name }}</small>
                                         <p class="card-text">{{ $service->description }}</p>
                                         <p class="card-text"><small class="text-muted">${{ $service->price }}</small></p>
-                                        <p class="card-text"><small class="text-muted">{{ $service->created_at->diffForHumans() }}</small></p>
+                                        <p class="card-text"><small class="text-muted">{{ $service->created_at }}</small></p>
                                         <div class="d-flex justify-content-end">
                                             <a href="{{ route('userServices.show', $service) }}" class="btn btn-primary">{{ __('See service') }}</a>
                                         </div>
@@ -46,11 +46,14 @@
 
                 </div>
 
+                <div class="d-flex align-items-center justify-content-center">
+                    {{ $services->links() }}
+                </div>
+
             </div>
             <div class="pt-4">
                 <a class="btn btn-primary col-3" href="{{ route('home') }}">{{__('Return')}}</a>
             </div>
         </div>
     </div>
-
     @endsection

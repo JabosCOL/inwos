@@ -80,3 +80,22 @@
   </div>
 </div>
 @endsection
+@section('scripts')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="ijaboCropTool-master/ijaboCropTool.min.js"></script>
+<script>
+  $('#_userAvatarFile').ijaboCropTool({
+    allowedExtensions: ['jpg', 'jpeg', 'png'],
+    buttonsText: ['ACCEPT', 'QUIT'],
+    buttonsColor: ['#30bf7d', '#ee5155', -15],
+    processUrl: '{{ route("user.updateImage") }}',
+    withCSRF: ['_token', '{{ csrf_token() }}'],
+    onSuccess: function(message, element, status) {
+      alert(message);
+    },
+    onError: function(message, element, status) {
+      alert(message);
+    }
+  });
+</script>
+@endsection

@@ -28,17 +28,13 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('service', ServiceController::class);
+Route::resource('service', ServiceController::class)->except(['index']);
+Route::post('survey', [ServiceController::class, 'surveyCreate'])->name('survey.create');
+Route::get('surveys', [ServiceController::class, 'surveyIndex'])->name('survey.index');
 
 Route::get('userServices', [ServiceController::class, 'userIndex'])->name('userServices.index');
 Route::get('userServices/{service}', [ServiceController::class, 'userShow'])->name('userServices.show');
 Route::delete('userServices/{service}', [ServiceController::class, 'userDestroy'])->name('userServices.destroy');
-
-Route::get('myOrders', [OrderController::class, 'index'])->name('order.index');
-Route::post('order', [OrderController::class, 'create'])->name('order.create');
-Route::post('order/accept/{order}', [OrderController::class, 'accept'])->name('order.accept');
-Route::post('order/finish/{order}', [OrderController::class, 'finish'])->name('order.finish');
-Route::post('order/cancel/{order}', [OrderController::class, 'cancel'])->name('order.cancel');
 
 Route::get('Category/{id}', [CategoryController::class, 'index'])->name('category.index');
 
@@ -50,3 +46,13 @@ Route::post('user/reset-password', [UserController::class, 'resetPassword'])->na
 Route::post('user/updateImage', [UserController::class, 'updateImage'])->name('user.updateImage');
 Route::patch('user/deleteImage/{user}', [UserController::class, 'deleteImage'])->name('user.deleteImage');
 Route::delete('user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+
+Route::get('myOrders', [OrderController::class, 'index'])->name('order.index');
+Route::post('order', [OrderController::class, 'create'])->name('order.create');
+Route::post('notification/{id}', [OrderController::class, 'markAllAsRead'])->name('order.markAllAsRead');
+Route::get('order/{order}/notification/{notification?}/service/{service?}', [OrderController::class, 'show'])->name('order.show');
+Route::post('order/accept/{order}', [OrderController::class, 'accept'])->name('order.accept');
+Route::post('order/finish/{order}', [OrderController::class, 'finish'])->name('order.finish');
+Route::post('order/cancel/{order}', [OrderController::class, 'cancel'])->name('order.cancel');
+
+

@@ -29,6 +29,7 @@
         <td>$ {{ $order->service->price }}</td>
         <td>{{ $order->status }}</td>
         <td>
+          <a class="btn btn-light" href="{{ route('order.show', $order) }}">Ver</a>
           @if (Auth::user()->id == $order->service->user_id)
           <form action="{{ route('order.accept', $order)}}" method="post" class="d-inline">
             @csrf
@@ -44,12 +45,15 @@
           <form action="{{ route('order.cancel', $order)}}" method="post" class="d-inline">
             @csrf
             <input type="text" name="status" value="cancelado" hidden>
-            <div class="disabled-wrapper"><button class="btn btn-danger text-white {{ $order->status == 'cancelado' || $order->status == 'finalizado'? 'disabled' : '' }}" onclick="return confirm('Deseas cancelar el servicio {{$order->service->name}}?')">{{__('Cancel')}}</button></div>
+            <div class="disabled-wrapper"><button class="btn btn-danger text-white {{ $order->status == 'cancelado' || $order->status == 'finalizado'? 'disabled' : '' }}" onclick="return confirm('Deseas cancelar esta orden del servicio {{$order->service->name}}?')">{{__('Cancel')}}</button></div>
           </form>
         </td>
       </tr>
       @endforeach
     </tbody>
   </table>
+</div>
+<div class="d-flex align-items-center justify-content-center">
+  {{ $orders->links() }}
 </div>
 @endsection

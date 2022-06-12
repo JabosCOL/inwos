@@ -46,12 +46,6 @@
             display: inline-block;
             cursor: not-allowed;
         }
-
-
-
-        /* span {
-            cursor: not-allowed;
-        } */
     </style>
 </head>
 
@@ -88,6 +82,50 @@
                         </li>
                         @endif
                         @else
+
+                        <li class="nav-item dropdown">
+                            <a class="mt-2 nav-link" data-toggle="dropdown" href="#">
+                                <i class="far fa-bell"></i>
+                                @if(count(auth()->user()->unreadNotifications))
+                                <span class="badge badge-danger navbar-badge">{{ count(auth()->user()->unreadNotifications) }}</span>
+                                @endif
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                @forelse(auth()->user()->notifications as $notification)
+                                @if($notification->type == 'App\Notifications\OrderStatusNotification' && $notification->data['id'] == auth()->user()->id
+                                && $notification->unread() && $notification->data['status'] != 'finalizado')
+                                <a href="{{ route('order.show', ['order'=>$notification->data['order'], 'notification'=>$notification->id] )}}" class="dropdown-item">
+                                    <i class="fas fa-envelope mr-2"></i>Tu orden del servicio {{ $notification->data['service'] }} ha cambiado su estado ha {{ $notification->data['status'] }}
+                                    <p class="text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</p>
+                                </a>
+                                @elseif($notification->type == 'App\Notifications\OrderStatusNotification' && $notification->data['id'] == auth()->user()->id && $notification->unread() && $notification->data['status'] == 'finalizado')
+                                <a href="{{ route('order.show', ['order'=>$notification->data['order'], 'notification'=>$notification->id, 'service'=>$notification->data['service_id'] ]) }}" class="dropdown-item">
+                                    <i class="fas fa-envelope mr-2"></i>El servicio {{ $notification->data['service'] }} ha finalizado, da click aquí para calificar el servicio
+                                    <p class="text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</p>
+                                </a>
+                                @elseif($notification->type == 'App\Notifications\OrderStatusNotification' && $notification->data['id'] != auth()->user()->id && $notification->unread())
+                                <a href="{{ route('order.show', ['order'=>$notification->data['order'], 'notification'=>$notification->id] )}}" class="dropdown-item">
+                                    <i class="fas fa-envelope mr-2"></i> {{ $notification->data['user'] }} ha cancelado la orden para tu servicio {{ $notification->data['service'] }}
+                                    <p class="text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</p>
+                                </a>
+                                @elseif($notification->type == 'App\Notifications\OrderCreateNotification' && $notification->unread())
+                                <a href="{{ route('order.show', ['order'=>$notification->data['order'], 'notification'=>$notification->id] ) }}" class="dropdown-item">
+                                    <i class="fas fa-envelope mr-2"></i> {{ $notification->data['user'] }} ha ordenado tu servicio {{ $notification->data['service'] }} para la fecha {{ $notification->data['date'] }} a la hora {{ $notification->data['time']}}
+                                    <p class="text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</p>
+                                </a>
+                                @endif
+                                @empty
+                                <p class="text-center">No tienes notificaciones</p>
+                                @endforelse
+                                @if(count(auth()->user()->Notifications))
+                                <div class="dropdown-divider"></div>
+                                <form action="{{ route('order.markAllAsRead', auth()->user()->id ) }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item dropdown-footer">Mark all as read</button>
+                                </form>
+                                @endif
+                            </div>
+                        </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 @if(Auth::user()->image)
@@ -101,7 +139,7 @@
                                 @if (Auth::user()->role_id == '1')
 
                                 <a class="dropdown-item" href="{{ route('admin.home') }}">
-                                    <i class="fa-solid fa-address-book"></i>
+                                    <i class="fa-solid fa-address-card"></i>
                                     {{__('Admin')}}
                                 </a>
 
@@ -111,12 +149,16 @@
                                     {{__('My account')}}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('userServices.index') }}">
-                                    <i class="fa-solid fa-folder-open"></i>
+                                    <i class="fa-solid fa-bell-concierge"></i>
                                     {{__('My services')}}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('order.index') }}">
-                                    <i class="fa-solid fa-folder-open"></i>
+                                    <i class="fa-solid fa-paste"></i>
                                     {{__('My orders')}}
+                                </a>
+                                <a class="dropdown-item" href="{{ route('survey.index') }}">
+                                    <i class="fa-solid fa-address-book"></i>
+                                    {{__('My surveys')}}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -140,23 +182,7 @@
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="ijaboCropTool-master/ijaboCropTool.min.js"></script>
-    <script>
-        $('#_userAvatarFile').ijaboCropTool({
-            allowedExtensions: ['jpg', 'jpeg', 'png'],
-            buttonsText: ['ACCEPT', 'QUIT'],
-            buttonsColor: ['#30bf7d', '#ee5155', -15],
-            processUrl: '{{ route("user.updateImage") }}',
-            withCSRF: ['_token', '{{ csrf_token() }}'],
-            onSuccess: function(message, element, status) {
-                alert(message);
-            },
-            onError: function(message, element, status) {
-                alert(message);
-            }
-        });
-    </script>
+    @yield('scripts')
 </body>
 
 </html>

@@ -50,7 +50,7 @@
             <div class="service card mb-3 pl-0">
               <div class="row g-0">
                 <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3 col-xxl-2">
-                  <img src="/storage/{{ $service->image }}" class="img-fluid rounded-start" alt="{{ $service->name }}" style="background-size: cover;">
+                  <img src="/storage/{{ $service->image }}" class="img-fluid rounded-start" alt="{{ $service->name }}" style="width: 100%; height: 100%;">
                 </div>
                 <div class="col-sm-6 col-md-7 col-lg-8 col-xl-9 col-xxl-10">
                   <div class="card-body">
@@ -58,7 +58,7 @@
                     <small class="card-text">{{ $service->city->name }}</small>
                     <p class="card-text">{{ $service->description }}</p>
                     <p class="card-text"><small class="text-muted">${{ $service->price }}</small></p>
-                    <p class="card-text"><small class="text-muted">{{ $service->created_at->diffForHumans() }}</small></p>
+                    <p class="card-text"><small class="text-muted">{{ $service->created_at }}</small></p>
 
                     <a href="{{ route('service.show', $service) }}" class="btn btn-primary">{{ __('See service') }}</a>
 
@@ -67,6 +67,9 @@
               </div>
             </div>
             @endforeach
+          </div>
+          <div class="d-flex align-items-center justify-content-center">
+            {{ $services->links() }}
           </div>
         </div>
       </div>

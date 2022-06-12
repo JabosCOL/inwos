@@ -22,7 +22,7 @@ class ServiceController extends Controller
     public function index()
     {
         return view('admin.services.index', [
-            'services' => Service::all(),
+            'services' => Service::paginate(10),
             'categories' => Category::pluck('name', 'id'),
             'cities' => City::pluck('name', 'id'),
             'filter' => NULL
@@ -36,7 +36,6 @@ class ServiceController extends Controller
      */
     public function create()
     {
-
         return view('admin.services.create', [
             'service' => new Service,
             'categories' => Category::pluck('name', 'id'),

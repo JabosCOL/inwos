@@ -34,7 +34,7 @@
         <td>{{ $service->name }}</td>
         <td>{{ $service->user->name }}</td>
         <td>{{ $service->city->name }}</td>
-        <td>{{ $service->created_at->diffForHumans() }}</td>
+        <td>{{ $service->created_at }}</td>
         <td>
           <a class="btn btn-primary" href="{{ route('admin.services.show', $service) }}">Ver</a>
           <a class="btn btn-warning" href="{{ route('admin.services.edit', $service) }}">Editar</a>
@@ -47,6 +47,9 @@
       @endforeach
     </tbody>
   </table>
+</div>
+<div class="d-flex align-items-center justify-content-center">
+  {{ $services->links() }}
 </div>
 @stop
 

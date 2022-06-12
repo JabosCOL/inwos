@@ -19,7 +19,7 @@ class CategoryController extends Controller
         return view('CategoriesAndCities.index', [
             'categories' =>Category::pluck('name', 'id'),
             'cities' =>City::pluck('name', 'id'),
-            'services' =>Service::where('category_id', '=', $id)->get(),
+            'services' =>Service::where('category_id', '=', $id)->paginate(5),
             'filter'=>Category::where('id', '=', $id)->first()
         ]);
     }

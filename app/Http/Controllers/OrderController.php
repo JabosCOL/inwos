@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Service;
+use App\Models\User;
+use App\Notifications\OrderStatusNotification;
+use App\Notifications\OrderCreateNotification;
 
 class OrderController extends Controller
 {
@@ -26,7 +29,7 @@ class OrderController extends Controller
         return view('orders.index', [
             'orders' => Order::where('user_id', '=', $user)
                             ->orWhereIn('service_id', $services_id)
-                            ->get()
+                            ->paginate(10)
         ]);
     }
 
@@ -37,14 +40,59 @@ class OrderController extends Controller
      */
     public function create()
     {
+        request()->validate([
+            'date' => 'required',
+            'time' => 'required',
+        ]);
+
         $order = new Order();
         $order->user_id = auth()->user()->id;
         $order->service_id = request('service_id');
         $order->date = request('date');
         $order->time = request('time');
         $order->save();
+        User::find($order->service->user_id)->notify(new OrderCreateNotification($order));
         return redirect()->route('home')
         ->with('status', __('The service has been order!'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Order $order, $notification = null, $service = null)
+    {
+        $notification = auth()->user()->notifications->find($notification);
+        if ($notification) {
+            $notification->delete();
+        }
+        if ($service){
+            return view('surveys.create', [
+                'service_id' => $service,
+            ]);
+        } else {
+            return view('orders.show', [
+                'order' => $order,
+            ]);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function markAllAsRead($id)
+    {
+        $user = User::findOrFail($id);
+        $user->unreadNotifications->map(function ($n) {
+            $n->delete();
+        });
+        return redirect()->back()
+        ->with('status', __('All notifications have been marked as read'));
     }
 
     /**
@@ -56,6 +104,7 @@ class OrderController extends Controller
     public function accept(Order $order)
     {
         $order->update(['status' => request('status')]);
+        User::find($order->user_id)->notify(new OrderStatusNotification($order));
         return redirect()->back()
         ->with('status', __('The order has been accepted'));
     }
@@ -69,6 +118,7 @@ class OrderController extends Controller
     public function finish(Order $order)
     {
         $order->update(['status' => request('status')]);
+        User::find($order->user_id)->notify(new OrderStatusNotification($order));
         return redirect()->back()
         ->with('status', __('The order has been finished'));
     }
@@ -82,6 +132,11 @@ class OrderController extends Controller
     public function cancel(Order $order)
     {
         $order->update(['status' => request('status')]);
+        if (auth()->user()->id == $order->user_id) {
+            User::find($order->service->user_id)->notify(new OrderStatusNotification($order));
+        } else {
+            User::find($order->user_id)->notify(new OrderStatusNotification($order));
+        }
         return redirect()->back()
         ->with('status', __('The order has been canceled'));
     }

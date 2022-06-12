@@ -19,17 +19,14 @@
             <div class="service card mb-3 col-md-12 col-lg-12 pl-0">
               <div class="row g-0">
                 <div class="col-sm-6 col-md-3 col-lg-2">
-                  <img src="/storage/{{ $service->image }}"
-                   class="img-fluid rounded-start"
-                   alt="{{ $service->name }}"
-                   style="background-size: cover;">
+                  <img src="/storage/{{ $service->image }}" class="img-fluid rounded-start" alt="{{ $service->name }}" style="width: 100%; height: 100%;">
                 </div>
                 <div class="col-sm-6 col-md-9 col-lg-10">
                   <div class="card-body">
                     <h5 class="card-title">{{ $service->name }}</h5><br>
                     <small class="card-text">{{ $service->city->name }}</small>
                     <p class="card-text">{{ $service->description }}</p>
-                    <p class="card-text"><small class="text-muted">{{ $service->created_at->diffForHumans() }}</small></p>
+                    <p class="card-text"><small class="text-muted">{{ $service->created_at }}</small></p>
 
                   </div>
                 </div>

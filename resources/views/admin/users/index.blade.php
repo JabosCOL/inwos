@@ -30,7 +30,6 @@
         <th scope="row">{{ $user->id }}</th>
         <td>{{ $user->name }}</td>
         <td>{{ $user->email }}</td>
-        <!-- investigar como llamar a la relación del modelo para imprimir el name del role -->
         <td>{{ $user->role->name }}</td>
         <td>{{ $user->created_at->diffForHumans() }}</td>
         <td>
@@ -44,5 +43,8 @@
       @endforeach
     </tbody>
   </table>
+</div>
+<div class="d-flex align-items-center justify-content-center">
+  {{ $users->links() }}
 </div>
 @stop

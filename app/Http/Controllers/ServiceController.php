@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SaveServiceRequest;
 use App\Models\Category;
 use App\Models\City;
+use App\Models\User;
+use App\Models\Survey;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -50,7 +52,7 @@ class ServiceController extends Controller
         $service->save();
 
         $image = Image::make(Storage::get('public/'. $service->image))
-        ->widen(600)->limitColors(255)->encode();
+        ->resize(250, 250)->limitColors(255)->encode();
 
         Storage::put('public/'. $service->image, $image);
 
@@ -109,7 +111,7 @@ class ServiceController extends Controller
             $service->save();
 
             $image = Image::make(Storage::get('public/'. $service->image))
-            ->widen(600)->limitColors(255)->encode();
+            ->resize(250, 250)->limitColors(255)->encode();
 
             Storage::put('public/'. $service->image, (string) $image);
 
@@ -147,7 +149,7 @@ class ServiceController extends Controller
         $user = auth()->user()->id;
 
         return view('services.myservices', [
-            'services' => Service::where('user_id', '=', $user)->get()
+            'services' => Service::where('user_id', '=', $user)->paginate(3)
         ]);
     }
 
@@ -178,5 +180,52 @@ class ServiceController extends Controller
 
         return redirect()->route('userServices.index')
         ->with('status', __('The service was deleted'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function surveyCreate()
+    {
+
+        request()->validate([
+            'comment' => 'required',
+            'serviceQualification' => 'required',
+            'filingQualification' => 'required',
+        ]);
+
+        $survey = new Survey();
+        $survey->service_id = request('service_id');
+        $survey->comments = request('comment');
+        $survey->service_qualification = request('serviceQualification');
+        $survey->filing_qualification = request('filingQualification');
+        $survey->save();
+
+
+        return redirect()->route('home')
+        ->with('status', __('The service was qualificated'));
+    }
+
+    /**
+     * Display the surveys from user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function surveyIndex()
+    {
+        $user = auth()->user()->id;
+        $ids = Service::where('user_id', '=', $user)->get()->map(function ($services) {
+            return $services->id;
+        });
+
+        $surveys = Survey::whereIn('service_id', $ids)->paginate(5);
+
+        return view('surveys.index', [
+            'surveys' => $surveys
+        ]);
     }
 }

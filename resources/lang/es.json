@@ -778,7 +778,16 @@
     "Accept": "Aceptar",
     "Finish": "Finalizar",
     "Schedule service": "Agendar servicio",
+    "All notifications have been marked as read": "Todas las notificaciones han sido marcadas como leidas",
     "Select date and time": "Selecciona fecha y hora",
     "Categories": "Categorias",
-    "Cities": "Ciudades"
+    "Cities": "Ciudades",
+    "Satisfaction survey": "Encuesta de satisfacción",
+    "Service qualification": "Calificación del servicio",
+    "Choose from 1 to 5": "Selecciona de 1 a 5",
+    "Filing qualification": "Calificación de presentación",
+    "Comments": "Comentarios",
+    "Send": "Enviar",
+    "The service was qualificated": "El servicio ha sido calificado",
+    "My surveys": "Mis encuestas"
 }

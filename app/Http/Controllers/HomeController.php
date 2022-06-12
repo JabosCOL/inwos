@@ -27,7 +27,7 @@ class HomeController extends Controller
     public function index()
     {
         return view('home', [
-            'services' =>Service::all(),
+            'services' =>Service::paginate(5),
             'categories' =>Category::pluck('name', 'id'),
             'cities' =>City::pluck('name', 'id'),
             'filter'=>NULL
