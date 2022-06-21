@@ -16,6 +16,7 @@
     {{ session('status') }}
   </div>
   @endif
+  <!-- Tabla para visualizar la información de los servicios -->
   <table class="table">
     <thead>
       <tr>

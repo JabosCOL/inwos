@@ -21,7 +21,7 @@
                     <h5 class="card-title">{{ $service->name }}</h5>
                     <small class="card-text">{{ $service->city->name }}</small>
                     <p class="card-text">{{ $service->description }}</p>
-                    <p class="card-text"><small class="text-muted">${{ $service->price }}</small></p>
+                    <p class="card-text"><small class="text-muted">${{ number_format($service->price) }}</small></p>
                     <p class="card-text"><small class="text-muted">{{ $service->created_at }}</small></p>
 
                   </div>
@@ -46,12 +46,17 @@
             @endif
           </div>
           @if (Auth::user()->id != $user_id)
+          <div class="d-flex justify-content-end">
+            <form action="{{ route('chat.with', $service->user_id ) }}" method="get" class="d-inline">
+              @csrf
+              <button class="btn btn-warning text-white">{{__('Go to chat')}}</button>
+            </form>
 
-          <!-- Button trigger modal -->
-          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            {{__('Schedule service')}}
-          </button>
-
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger ml-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              {{__('Schedule service')}}
+            </button>
+          </div>
           <!-- Modal -->
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -73,7 +78,7 @@
                       </span>
                       @enderror
                       <input id="timepkr" name="time" style="width:100px;float:left;" class="form-control ml-2 @error('time') is-invalid @enderror" placeholder="HH:MM" required />
-                      <button type="button" class="btn btn-primary" onclick="showpickers('timepkr',12)" style="width:40px;float:left;"><i class="fa fa-clock-o"></i>
+                      <button type="button" class="btn btn-primary" onclick="showpickers('timepkr',12)" style="width:40px;float:left;"><em class="fa fa-clock-o"></em>
                         @error('time')
                         <span class="invalid-feedback">
                           <strong>{{$message}}</strong>

@@ -59,4 +59,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class, 'user_id');
     }
+
+    public function chats()
+    {
+        return $this->belongsToMany(Chat::class);
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Messages::class);
+    }
 }

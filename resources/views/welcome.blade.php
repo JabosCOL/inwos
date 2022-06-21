@@ -430,7 +430,7 @@
         }
 
         .background {
-            background-image: linear-gradient(rgba(16, 16, 16, .5), rgba(16, 16, 16, .7)), url(/storage/images/inwos/img.jpg);
+            background-image: linear-gradient(rgba(16, 16, 16, .8), rgba(16, 16, 16, .9)), url(/storage/images/inwos/img.jpg);
             background-size: cover;
         }
 

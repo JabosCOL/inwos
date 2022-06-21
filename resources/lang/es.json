@@ -779,6 +779,7 @@
     "Finish": "Finalizar",
     "Schedule service": "Agendar servicio",
     "All notifications have been marked as read": "Todas las notificaciones han sido marcadas como leidas",
+    "All messages have been marked as read": "Todos los mensajes han sido marcados como leidos",
     "Select date and time": "Selecciona fecha y hora",
     "Categories": "Categorias",
     "Cities": "Ciudades",
@@ -789,5 +790,8 @@
     "Comments": "Comentarios",
     "Send": "Enviar",
     "The service was qualificated": "El servicio ha sido calificado",
-    "My surveys": "Mis encuestas"
+    "My surveys": "Mis encuestas",
+    "You don't have any notifications": "No tienes notificaciones",
+    "You don't have any messages": "No tienes mensajes",
+    "Mark all as read": "Marcar todos como leidos"
 }

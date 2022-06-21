@@ -13,6 +13,7 @@
     {{ session('status') }}
   </div>
   @endif
+  <!-- Tabla para visualizar información de los usuarios -->
   <table class="table">
     <thead>
       <tr>

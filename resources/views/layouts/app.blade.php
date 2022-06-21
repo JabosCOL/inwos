@@ -85,43 +85,84 @@
 
                         <li class="nav-item dropdown">
                             <a class="mt-2 nav-link" data-toggle="dropdown" href="#">
-                                <i class="far fa-bell"></i>
-                                @if(count(auth()->user()->unreadNotifications))
-                                <span class="badge badge-danger navbar-badge">{{ count(auth()->user()->unreadNotifications) }}</span>
+                                <i class="far fa-comments"></i>
+                                @if(count($messages))
+                                <span class="badge badge-danger navbar-badge">{{ count($messages) }}</span>
                                 @endif
                             </a>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                @forelse(auth()->user()->notifications as $notification)
+                                @foreach(auth()->user()->notifications as $notification)
+                                @if($notification->type == 'App\Notifications\MessageNotification' && $notification->unread())
+                                <a href="{{ route('chat.show', $notification->data['chat_id'] ) }}" class="dropdown-item">
+
+                                    <div class="media">
+                                        <img class="mr-3 rounded-circle border" src="/storage/{{ $notification->data['image'] }}" alt="User Avatar" style="width:50px; height:50px;">
+
+                                        <div class="media-body">
+                                            <h5 class="mt-0 mb-1">{{ $notification->data['name'] }}</h5>
+                                            <p class="text-sm text-muted">{{ $notification->created_at->diffForHumans() }}</p>
+                                        </div>
+                                    </div>
+
+                                </a>
+                                @endif
+                                @endforeach
+                                @if(!count($messages))
+                                <p class="text-center">{{ __("You don't have any messages") }}</p>
+                                @endif
+                                @if(count($messages))
+                                <div class="dropdown-divider"></div>
+                                <form action="{{ route('order.markAllAsRead', 'message' ) }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item dropdown-footer">{{ __('Mark all as read') }}</button>
+                                </form>
+                                @endif
+                            </div>
+                        </li>
+
+
+
+
+                        <li class="nav-item dropdown">
+                            <a class="mt-2 nav-link" data-toggle="dropdown" href="#">
+                                <em class="far fa-bell"></em>
+                                @if(count($notifications))
+                                <span class="badge badge-danger navbar-badge">{{ count($notifications) }}</span>
+                                @endif
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                @foreach(auth()->user()->notifications as $notification)
                                 @if($notification->type == 'App\Notifications\OrderStatusNotification' && $notification->data['id'] == auth()->user()->id
                                 && $notification->unread() && $notification->data['status'] != 'finalizado')
                                 <a href="{{ route('order.show', ['order'=>$notification->data['order'], 'notification'=>$notification->id] )}}" class="dropdown-item">
-                                    <i class="fas fa-envelope mr-2"></i>Tu orden del servicio {{ $notification->data['service'] }} ha cambiado su estado ha {{ $notification->data['status'] }}
+                                    <em class="fas fa-envelope mr-2"></em>Tu orden del servicio {{ $notification->data['service'] }} ha cambiado su estado ha {{ $notification->data['status'] }}
                                     <p class="text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</p>
                                 </a>
                                 @elseif($notification->type == 'App\Notifications\OrderStatusNotification' && $notification->data['id'] == auth()->user()->id && $notification->unread() && $notification->data['status'] == 'finalizado')
                                 <a href="{{ route('order.show', ['order'=>$notification->data['order'], 'notification'=>$notification->id, 'service'=>$notification->data['service_id'] ]) }}" class="dropdown-item">
-                                    <i class="fas fa-envelope mr-2"></i>El servicio {{ $notification->data['service'] }} ha finalizado, da click aquí para calificar el servicio
+                                    <em class="fas fa-envelope mr-2"></em>El servicio {{ $notification->data['service'] }} ha finalizado, da click aquí para calificar el servicio
                                     <p class="text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</p>
                                 </a>
                                 @elseif($notification->type == 'App\Notifications\OrderStatusNotification' && $notification->data['id'] != auth()->user()->id && $notification->unread())
                                 <a href="{{ route('order.show', ['order'=>$notification->data['order'], 'notification'=>$notification->id] )}}" class="dropdown-item">
-                                    <i class="fas fa-envelope mr-2"></i> {{ $notification->data['user'] }} ha cancelado la orden para tu servicio {{ $notification->data['service'] }}
+                                    <em class="fas fa-envelope mr-2"></em> {{ $notification->data['user'] }} ha cancelado la orden para tu servicio {{ $notification->data['service'] }}
                                     <p class="text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</p>
                                 </a>
                                 @elseif($notification->type == 'App\Notifications\OrderCreateNotification' && $notification->unread())
                                 <a href="{{ route('order.show', ['order'=>$notification->data['order'], 'notification'=>$notification->id] ) }}" class="dropdown-item">
-                                    <i class="fas fa-envelope mr-2"></i> {{ $notification->data['user'] }} ha ordenado tu servicio {{ $notification->data['service'] }} para la fecha {{ $notification->data['date'] }} a la hora {{ $notification->data['time']}}
+                                    <em class="fas fa-envelope mr-2"></em> {{ $notification->data['user'] }} ha ordenado tu servicio {{ $notification->data['service'] }} para la fecha {{ $notification->data['date'] }} a la hora {{ $notification->data['time']}}
                                     <p class="text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</p>
                                 </a>
                                 @endif
-                                @empty
-                                <p class="text-center">No tienes notificaciones</p>
-                                @endforelse
-                                @if(count(auth()->user()->Notifications))
+                                @endforeach
+                                @if(!count($notifications))
+                                <p class="text-center">{{ __("You don't have any notifications") }}</p>
+                                @endif
+                                @if(count($notifications))
                                 <div class="dropdown-divider"></div>
-                                <form action="{{ route('order.markAllAsRead', auth()->user()->id ) }}" method="post">
+                                <form action="{{ route('order.markAllAsRead', 'notification' ) }}" method="post">
                                     @csrf
-                                    <button type="submit" class="dropdown-item dropdown-footer">Mark all as read</button>
+                                    <button type="submit" class="dropdown-item dropdown-footer">{{ __('Mark all as read') }}</button>
                                 </form>
                                 @endif
                             </div>
@@ -139,30 +180,30 @@
                                 @if (Auth::user()->role_id == '1')
 
                                 <a class="dropdown-item" href="{{ route('admin.home') }}">
-                                    <i class="fa-solid fa-address-card"></i>
+                                    <em class="fa-solid fa-address-card"></em>
                                     {{__('Admin')}}
                                 </a>
 
                                 @endif
                                 <a class="dropdown-item" href="{{ route('user.index') }}">
-                                    <i class="fa-solid fa-gears"></i>
+                                    <em class="fa-solid fa-gears"></em>
                                     {{__('My account')}}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('userServices.index') }}">
-                                    <i class="fa-solid fa-bell-concierge"></i>
+                                    <em class="fa-solid fa-bell-concierge"></em>
                                     {{__('My services')}}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('order.index') }}">
-                                    <i class="fa-solid fa-paste"></i>
+                                    <em class="fa-solid fa-paste"></em>
                                     {{__('My orders')}}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('survey.index') }}">
-                                    <i class="fa-solid fa-address-book"></i>
+                                    <em class="fa-solid fa-address-book"></em>
                                     {{__('My surveys')}}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    <i class="fa-solid fa-door-open"></i>
+                                    <em class="fa-solid fa-door-open"></em>
                                     {{ __('Logout') }}
                                 </a>
 

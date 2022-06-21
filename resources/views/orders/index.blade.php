@@ -7,6 +7,7 @@
   </div>
   @endif
   <h1>Historial de ordenes</h1>
+  <!-- Tabla para visualizar el historico de ordenes -->
   <table class="table mt-5">
     <thead>
       <tr>
@@ -29,7 +30,8 @@
         <td>$ {{ $order->service->price }}</td>
         <td>{{ $order->status }}</td>
         <td>
-          <a class="btn btn-light" href="{{ route('order.show', $order) }}">Ver</a>
+          <a class="btn btn-light" href="{{ route('order.show', ['order'=>$order, 'notification'=>'default']) }}">Ver</a>
+
           @if (Auth::user()->id == $order->service->user_id)
           <form action="{{ route('order.accept', $order)}}" method="post" class="d-inline">
             @csrf

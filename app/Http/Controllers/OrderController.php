@@ -8,6 +8,7 @@ use App\Models\Service;
 use App\Models\User;
 use App\Notifications\OrderStatusNotification;
 use App\Notifications\OrderCreateNotification;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -85,14 +86,26 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function markAllAsRead($id)
+    public function markAllAsRead($type)
     {
-        $user = User::findOrFail($id);
-        $user->unreadNotifications->map(function ($n) {
-            $n->delete();
-        });
-        return redirect()->back()
-        ->with('status', __('All notifications have been marked as read'));
+        if ($type == 'notification') {
+            $notifications = DB::table('notifications')
+                ->where('notifiable_id', auth()->user()->id)
+                ->whereNotIn('type', ['App\Notifications\MessageNotification'])
+                ->delete();
+
+            return redirect()->back()
+                ->with('status', __('All notifications have been marked as read'));
+
+        } elseif ($type == 'message') {
+            $messages = DB::table('notifications')
+                ->where('notifiable_id', auth()->user()->id)
+                ->where('type', '=', 'App\Notifications\MessageNotification')
+                ->delete();
+
+            return redirect()->back()
+                ->with('status', __('All messages have been marked as read'));
+        }
     }
 
     /**

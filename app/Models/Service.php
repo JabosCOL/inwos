@@ -13,15 +13,6 @@ class Service extends Model
 
     protected $guarded = [];
 
-    protected function getPriceAttribute($value)
-    {
-      if(!empty($value)) {
-        $toString = strval($value);
-        $formatedPrice = number_format($toString);
-        return $formatedPrice;
-      }
-    }
-
     protected function getCreatedAtAttribute($value)
     {
       if(!empty($value)) {

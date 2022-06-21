@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ServiceController;
@@ -49,10 +51,23 @@ Route::delete('user/{user}', [UserController::class, 'destroy'])->name('user.des
 
 Route::get('myOrders', [OrderController::class, 'index'])->name('order.index');
 Route::post('order', [OrderController::class, 'create'])->name('order.create');
-Route::post('notification/{id}', [OrderController::class, 'markAllAsRead'])->name('order.markAllAsRead');
+Route::post('notification/{type}', [OrderController::class, 'markAllAsRead'])->name('order.markAllAsRead');
 Route::get('order/{order}/notification/{notification?}/service/{service?}', [OrderController::class, 'show'])->name('order.show');
 Route::post('order/accept/{order}', [OrderController::class, 'accept'])->name('order.accept');
 Route::post('order/finish/{order}', [OrderController::class, 'finish'])->name('order.finish');
 Route::post('order/cancel/{order}', [OrderController::class, 'cancel'])->name('order.cancel');
 
+Route::get('auth/user', function () {
+    if (auth()->check()) {
+        return response()->json([
+            'authUser' => auth()->user()
+        ]);
 
+        return null;
+    }
+});
+Route::get('chat/with/{user}', [ChatController::class, 'chatWith'])->name('chat.with');
+Route::get('chat/{chat}', [ChatController::class, 'show'])->name('chat.show');
+Route::get('chat/{chat}/get_users', [ChatController::class, 'getUsers'])->name('chat.getUsers');
+Route::get('chat/{chat}/get_messages', [ChatController::class, 'getMessages'])->name('chat.getMessages');
+Route::post('message/sent', [MessageController::class, 'sent'])->name('message.sent');

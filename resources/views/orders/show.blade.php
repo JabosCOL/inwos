@@ -14,11 +14,11 @@
               <p class="text-muted"><strong>{{__('Client')}}:</strong> {{ $order->user->name }}</p>
               <p class="text-muted"><strong>{{__('Date')}}:</strong> {{ $order->date }}</p>
               <p class="text-muted"><strong>{{__('Time')}}:</strong> {{ $order->time }}</p>
-              <p class="text-muted"><strong>{{__('Price')}}:</strong> ${{ $order->service->price }}</p>
+              <p class="text-muted"><strong>{{__('Price')}}:</strong> ${{ number_format($order->service->price) }}</p>
               <p class="text-muted"><strong>{{__('Status')}}:</strong> {{ $order->status }}</p>
             </div>
             <div>
-              <img class="d-flex align-items-center" src="/storage/{{ $order->service->image }}" style="width: 300px; height: 250px;">
+              <img class="d-flex align-items-center" src="/storage/{{ $order->service->image }}" alt="$order->service->name" style="width: 300px; height: 250px;">
             </div>
           </div>
         </div>

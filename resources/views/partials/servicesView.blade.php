@@ -57,7 +57,7 @@
                     <h5 class="card-title">{{ $service->name }}</h5>
                     <small class="card-text">{{ $service->city->name }}</small>
                     <p class="card-text">{{ $service->description }}</p>
-                    <p class="card-text"><small class="text-muted">${{ $service->price }}</small></p>
+                    <p class="card-text"><small class="text-muted">${{ number_format($service->price) }}</small></p>
                     <p class="card-text"><small class="text-muted">{{ $service->created_at }}</small></p>
 
                     <a href="{{ route('service.show', $service) }}" class="btn btn-primary">{{ __('See service') }}</a>

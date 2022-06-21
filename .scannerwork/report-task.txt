@@ -1,0 +1,6 @@
+projectKey=Inwos
+serverUrl=http://localhost:9000
+serverVersion=9.5.0.56709
+dashboardUrl=http://localhost:9000/dashboard?id=Inwos
+ceTaskId=AYFxqbeNmCGbZPk6DxjS
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYFxqbeNmCGbZPk6DxjS
