@@ -11,13 +11,16 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    /**
+     * Permite el acceso solo a usuarios autentificados y con el rol administrador.
+     */
     public function __construct()
     {
         $this->middleware(['auth', 'admin']);
     }
 
     /**
-     * Display a listing of the resource.
+     * Muestra todos los usuarios existentes.
      *
      * @return \Illuminate\Http\Response
      */
@@ -30,7 +33,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar un usuario.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -44,7 +47,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Recibe el request para modificar un usuario.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -58,7 +61,7 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un usuario.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

@@ -85,3 +85,6 @@
   background-color: lightgrey;
   cursor: pointer
 }
+#timepkr[readonly] {
+ background-color: #fff;
+}

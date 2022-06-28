@@ -14,23 +14,26 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
+    /**
+     * Permite el acceso solo a usuarios autentificados y con el rol administrador.
+     */
     public function __construct()
     {
         $this->middleware(['auth', 'admin']);
     }
 
+    /**
+     * Muestra todos los servicios existentes.
+     */
     public function index()
     {
         return view('admin.services.index', [
-            'services' => Service::paginate(10),
-            'categories' => Category::pluck('name', 'id'),
-            'cities' => City::pluck('name', 'id'),
-            'filter' => NULL
+            'services' => Service::paginate(10)
         ]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear un servicio.
      *
      * @return \Illuminate\Http\Response
      */
@@ -45,7 +48,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Recibe el request para almacenar el nuevo servicio.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -67,7 +70,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el servicio seleccionado.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -82,7 +85,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar un servicio.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -98,7 +101,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Recibe el request para actualizar un servicio.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -129,7 +132,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un servicio.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

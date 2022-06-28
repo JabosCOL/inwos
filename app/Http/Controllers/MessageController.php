@@ -18,7 +18,8 @@ class MessageController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Recibe el request para almacenar los mensajes y adicionalmente crea la notificación,
+     * en caso de que ya exista una actualizara la hora del envio.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

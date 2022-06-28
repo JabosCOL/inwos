@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra los servicios filtrados por una categoria.
      *
      * @return \Illuminate\Http\Response
      */

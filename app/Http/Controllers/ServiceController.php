@@ -17,11 +17,12 @@ class ServiceController extends Controller
 
     public function __construct()
     {
+        // Utilización del middleware auth para dar acceso solo a los usuarios logeados.
         $this->middleware('auth');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para la creación de un servicio.
      *
      * @return \Illuminate\Http\Response
      */
@@ -38,7 +39,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Recibe el request para almacenar el servicio en la base de datos.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -60,7 +61,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el servicio seleccionado.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -75,7 +76,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar un servicio.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -91,7 +92,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza el servicio modificado desde el formulario de edición.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -124,7 +125,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina el servicio de la base de datos.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -140,7 +141,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Display a listing of the resource from user.
+     * Muestra los servicios asociados al usuario logeado.
      *
      * @return \Illuminate\Http\Response
      */
@@ -154,7 +155,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Display the specified resource from user.
+     * Muestra un servicio especifico del usuario logeado.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -169,7 +170,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Remove the specified resource from user.
+     * Elimina un servicio del usuario logeado.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -183,7 +184,27 @@ class ServiceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Muestra las encuestas de los servicios relacionados al usuario logeado.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function surveyIndex()
+    {
+        $user = auth()->user()->id;
+        $ids = Service::where('user_id', '=', $user)->get()->map(function ($services) {
+            return $services->id;
+        });
+
+        $surveys = Survey::whereIn('service_id', $ids)->paginate(5);
+
+        return view('surveys.index', [
+            'surveys' => $surveys
+        ]);
+    }
+
+    /**
+     * Recibe el request del formulario de encuestas para almacenarla en la base de datos.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -207,25 +228,5 @@ class ServiceController extends Controller
 
         return redirect()->route('home')
         ->with('status', __('The service was qualificated'));
-    }
-
-    /**
-     * Display the surveys from user.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function surveyIndex()
-    {
-        $user = auth()->user()->id;
-        $ids = Service::where('user_id', '=', $user)->get()->map(function ($services) {
-            return $services->id;
-        });
-
-        $surveys = Survey::whereIn('service_id', $ids)->paginate(5);
-
-        return view('surveys.index', [
-            'surveys' => $surveys
-        ]);
     }
 }

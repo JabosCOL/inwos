@@ -76,6 +76,9 @@ function appendMessages(messages) {
 
 function appendMessage(name, img, side, text, date) {
   //   Simple solution for small apps
+  if (img === null) {
+    img = 'images/users/default.png';
+  }
   const msgHTML = `
     <div class="msg ${side}-msg">
       <div class="msg-img">

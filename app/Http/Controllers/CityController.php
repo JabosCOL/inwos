@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class CityController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra los servicios filtrados por alguna ciudad.
      *
      * @return \Illuminate\Http\Response
      */

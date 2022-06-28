@@ -14,7 +14,7 @@ class ChatController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Verifica que exista algun chat entre los dos usuarios y si no, crea uno nuevo para estos dos.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -39,7 +39,8 @@ class ChatController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * redirecciona al usuario al chat correspondiente, si el usuario no pertenece a
+     * este chat obtendra un error 403 de acceso denegado.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -54,7 +55,7 @@ class ChatController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Se obtienen los usuarios relacionados al chat.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -67,7 +68,7 @@ class ChatController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Se obtienen los mensajes relacionados al chat.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

@@ -68,7 +68,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
         $request = request();
         $profile_image_url = $request->file('image')->store('images/users', 'public');
 

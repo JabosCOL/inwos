@@ -77,13 +77,12 @@
                         <strong>{{$message}}</strong>
                       </span>
                       @enderror
-                      <input id="timepkr" name="time" style="width:100px;float:left;" class="form-control ml-2 @error('time') is-invalid @enderror" placeholder="HH:MM" required />
-                      <button type="button" class="btn btn-primary" onclick="showpickers('timepkr',12)" style="width:40px;float:left;"><em class="fa fa-clock-o"></em>
-                        @error('time')
-                        <span class="invalid-feedback">
-                          <strong>{{$message}}</strong>
-                        </span>
-                        @enderror
+                      <input id="timepkr" readonly name="time" style="width:100px;float:left;" onclick="showpickers('timepkr',12)" class="form-control ml-2 @error('time') is-invalid @enderror" placeholder="HH:MM" required />
+                      @error('time')
+                      <span class="invalid-feedback">
+                        <strong>{{$message}}</strong>
+                      </span>
+                      @enderror
                     </div>
                     <div class="timepicker"></div>
                 </div>

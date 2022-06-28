@@ -18,7 +18,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Muestra las ordenes asociadas a los servicios propios y al usuario.
      *
      * @return \Illuminate\Http\Response
      */
@@ -35,7 +35,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Recibe el request para crear una nueva order y crea la notificación correspondiente.
      *
      * @return \Illuminate\Http\Response
      */
@@ -58,7 +58,9 @@ class OrderController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra la vista detallada de la orden o de la encuesta en
+     * caso de haber finalizado el servicio al dar click a la notificación
+     * correspondiente, adicionalmente elimina la notificación.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -81,7 +83,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Elimina todas las notificaciones dependiendo de su tipo.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -109,7 +111,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Change status to accepted.
+     * Cambia el estado de la orden a aceptado y envia la notificación.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -123,7 +125,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Change status to finished.
+     * Cambia el estado de la orden a finalizado y envia la notificación.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -137,7 +139,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Change status to canceled.
+     * Cambia el estado de la orden a cancelado y envia la notificación.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

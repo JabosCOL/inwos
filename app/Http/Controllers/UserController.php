@@ -17,7 +17,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Envia los datos del usuario a la vista de personalización del usuario.
      *
      * @return \Illuminate\Http\Response
      */
@@ -30,11 +30,17 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Muestra el formulario para reestablecer la contraseña.
+     */
     public function resetPasswordForm()
     {
         return view('user.resetpassword');
     }
 
+    /**
+     * Procesa el request para almacenar la nueva contraseña.
+     */
     public function resetPassword(Request $request)
     {
         $request->validate([
@@ -44,7 +50,6 @@ class UserController extends Controller
         ]);
 
         $user = auth()->user();
-        // change Password
         $user->password = Hash::make($request->new_password);
         $user->save();
 
@@ -52,22 +57,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Service $service)
-    {
-        return view('services.myServicesShow', [
-            'service' => $service,
-            'user_id'=> $service->user_id,
-            'auth_id'=> auth()->user()->id
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Procesa el request para actualizar la imagen del usuario.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -94,7 +84,7 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina la foto de perfil del usuario.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -110,7 +100,7 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina la cuenta del usuario.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
