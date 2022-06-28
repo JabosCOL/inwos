@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Cast\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +12,14 @@ class Service extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    protected function getCreatedAtAttribute($value)
+    {
+      if(!empty($value)) {
+        $carbonDate = new Carbon($value);
+        return $carbonDate->diffForHumans();
+      }
+    }
 
     public function category()
     {
@@ -27,5 +37,15 @@ class Service extends Model
     public function user()
     {
       return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function orders()
+    {
+      return $this->hasMany(Order::class, 'service_id');
+    }
+
+    public function surveys()
+    {
+      return $this->hasMany(Survey::class, 'service_id');
     }
 }

@@ -26,12 +26,12 @@ class CreateServicesTable extends Migration
             // $table->unsignedBigInteger('user_id')->nullable()->after('id');
             // $table->foreign('user_id')->references('id')->on('users')
 
-            // También se puede hacer la foreign key usando el metodo foreignId() 
+            // También se puede hacer la foreign key usando el metodo foreignId()
             // que hara unsignedBigInteger y dira que sera una foreign y contrained()
             // que indicara a que tabla hace referencia con el nombre de la llave
             // ej: user_id -> users, category_id -> categories. Si esto no coincide podemos
             // indicar la tabla dentro de los parentesis
-            // si se van a añadir más metodos a la llave deben ser definidos antes del 
+            // si se van a añadir más metodos a la llave deben ser definidos antes del
             // método constrained()
 
             $table->foreignId('user_id')->nullable()->after('id')->constrained()

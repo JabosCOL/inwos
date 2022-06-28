@@ -2,101 +2,116 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Service;
+use App\Models\User;
+use App\Rules\CheckPassword;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware('auth');
     }
 
     /**
-     * Display a listing of the resource.
+     * Envia los datos del usuario a la vista de personalización del usuario.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $user = auth()->user()->id;
+        $user = auth()->user();
 
-        return view('services.myservices', [
-            'services' => Service::where('user_id', '=', $user)->get()
+        return view('user.index', [
+            'user' => $user
         ]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Muestra el formulario para reestablecer la contraseña.
      */
-    public function create()
+    public function resetPasswordForm()
     {
-        //
+        return view('user.resetpassword');
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Procesa el request para almacenar la nueva contraseña.
      */
-    public function store(Request $request)
+    public function resetPassword(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Service $service)
-    {
-        return view('services.myServicesShow', [
-            'service' => $service,
-            'user_id'=> $service->user_id,
-            'auth_id'=> auth()->user()->id
+        $request->validate([
+            'current_password' => ['required', new CheckPassword],
+            'new_password' => 'required|string|min:8|confirmed',
+            'new_password_confirmation' => 'required',
         ]);
+
+        $user = auth()->user();
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->route('home')->with("status", trans("Password changed successfully"));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Procesa el request para actualizar la imagen del usuario.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateImage(Request $request)
     {
-        //
+        $user = User::where('id', auth()->user()->id)
+            ->first();
+        $path = '/storage/images/users';
+        $image = $request->file('image');
+        $new_image_name = 'UIMG' . date('Ymd') . uniqid() . '.jpg';
+        $image_db_url = 'images/users/' . $new_image_name;
+        $upload = $image->move(public_path($path), $new_image_name);
+        if ($upload) {
+            $oldPicture = 'storage/'. $user->image;
+            \File::delete(public_path($oldPicture));
+            $user->update(['image' => $image_db_url]);
+            return response()->json(['status' => 1, 'msg' => trans('Image has been updated successfully.')]);
+        } else {
+            return response()->json(['status' => 0, 'msg' => trans('Something went wrong, try again later')]);
+        }
+
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina la foto de perfil del usuario.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Service $service)
+    public function deleteImage(User $user)
     {
-        $service->delete();
+        $oldPicture = 'storage/' . $user->image;
+        \File::delete(public_path($oldPicture));
+        $user->update(['image' => NULL]);
 
-        return redirect()->route('userServices.index')
-        ->with('status', __('The service was deleted'));
+        return redirect()->back()
+            ->with('status', trans('The photo was deleted sucessfully'));
+    }
+
+    /**
+     * Elimina la cuenta del usuario.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        Storage::delete('public/' . $user->image);
+
+        $user->delete();
+
+        return redirect()->route('/')
+        ->with('status', trans('The user was deleted'));
     }
 }

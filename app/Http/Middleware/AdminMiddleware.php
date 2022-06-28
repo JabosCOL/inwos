@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CheckRoles
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,12 +17,9 @@ class CheckRoles
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()->role == 'Proveedor')
-        {
-            return $next($request);
-        }
-        
+        if(Auth::check() && Auth::user()->role_id == '1')
+        return $next($request);
+
         return redirect()->route('home');
     }
- 
 }
